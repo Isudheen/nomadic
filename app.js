@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const { resolveSoa } = require('dns');
 
 //Middlewares
 const myMiddleware1 = (req, res, next) => {
@@ -127,20 +128,17 @@ const deleteUser = (req, res) => {
 };
 
 //Routes
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+app.use('/api/v1/tours', tourRouter); //Mounting the router
+app.use('/api/v1/users', userRouter);
 
-app.route('/api/v1/users').get(getAllUsers).post(createUser);
-app
-  .route('/api/v1/users/:id')
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+userRouter.route('/').get(getAllUsers).post(createUser);
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 //Server start
 const port = 3000;
