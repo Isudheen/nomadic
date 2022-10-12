@@ -15,8 +15,11 @@ const dateMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 app.use(express.json()); //to access req.body
+app.use(express.static(`${__dirname}/public`));
 app.use(myMiddleware1);
 app.use(dateMiddleware);
 
