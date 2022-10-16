@@ -2,18 +2,40 @@ const Tour = require('./../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   //Build query
-  // 1. Filtering
+  // 1A. Filtering
   const queryObj = { ...req.query };
   const excludedFields = ['fields', 'sort', 'page', 'limit'];
   excludedFields.forEach((el) => delete queryObj[el]);
 
-  //2. Advanced filtering
-  let queryString = JSON.stringify(queryObj);
-  queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g); // in regex \b for selecting exact words and g flag for all occurrence
+  //1B. Advanced filtering
+  let queryStr = JSON.stringify(queryObj);
+  queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-  const query = Tour.find(JSON.parse(queryString));
-  console.log(query);
-  //Execute query
+  //replace matched expression with $ prepended to the expression, to get eg. $gte in MQL for mongo. eg.
+  // { difficulty: 'easy', duration: { $gte: 5 } } because incoming query(from url - duration[gte]=5) ,will be like:
+  // { difficulty: 'easy', duration: { gte: 5 } }
+  // in regex \b for selecting exact words and g flag for all occurrence
+  let query = Tour.find(JSON.parse(queryStr));
+
+  //2. Sorting
+  if (req.query.sort) {
+    const multiSort = req.query.sort.split(',').join(' '); // If current sort query is sort=price,-ratingsAverage
+    //Splits the comma separated string into an array and join into one string with space b/w words. minus sign sorts in descending order.
+    query = query.sort(multiSort);
+    console.log(multiSort);
+  } else {
+    query = query.sort('-createdAt'); //default sort. descending order of time
+  }
+
+  //3. Field limiting
+  if (req.query.fields) {
+    const allFields = req.query.fields.split(',').join(' '); //---Inclusion projection If current query is fields=name,price ----name and price are included
+    query = query.select(allFields);
+    console.log(allFields);
+  } else {
+    query = query.select('-__v'); //default condition. minus sign means exclusion projection __v is excluded. Cannot use inclusion and exclusion projections together.
+  }
+  // Execute query
   const tours = await query;
 
   //Sending response
