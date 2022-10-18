@@ -54,9 +54,13 @@ const tourSchema = new mongoose.Schema(
     createdAt: {
       type: Date,
       default: Date.now(),
-      select: false, //createdAt will not be send to client in response.
-    },
+      select: false,
+    }, //createdAt will not be send to client in response.
     startDates: [Date],
+    secretTour: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -69,13 +73,41 @@ tourSchema.virtual('durationWeeks').get(function () {
 });
 
 //Document middleware: runs before .save() and .create()
+// has access to the document before saving.
 tourSchema.pre('save', function (next) {
   this.slug = slugify.default(this.name, { lower: true });
   next();
 });
 
+//has access to the just saved doc
 tourSchema.post('save', function (doc, next) {
-  console.log(doc);
+  // console.log(doc);
+  next();
+});
+
+//QUERY MIDDLEWARE
+//'find' hook is executed to find queries. The regex /^find/ is for selecting all query functions starting with find, like find, findOne, findOneAndUpdate etc.
+// this keyword will be pointing to the query object and not any documents.
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
+});
+
+//Post query middleware will have access to all documents returned from the query
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(
+    `Time taken for query is ${Date.now() - this.start} milliseconds`
+  );
+  next();
+});
+
+//Aggregation Middleware
+// this keyword will be pointing to the aggregation object and not any documents.
+//below function adds a match operator to the beginning of pipeline array.
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this.pipeline());
   next();
 });
 //Model
