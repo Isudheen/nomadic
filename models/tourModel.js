@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 //Schema
 const tourSchema = new mongoose.Schema(
@@ -13,6 +14,7 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: [true, `A tour must have group size`],
     },
+    slug: String,
     maxGroupSize: {
       type: Number,
       required: [true, 'A tour must have a group size'],
@@ -47,6 +49,7 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A tour must have a cover image'],
     },
+
     images: [String], //A array of strings
     createdAt: {
       type: Date,
@@ -66,8 +69,14 @@ tourSchema.virtual('durationWeeks').get(function () {
 });
 
 //Document middleware: runs before .save() and .create()
-tourSchema.pre('save', function () {
-  console.log(this);
+tourSchema.pre('save', function (next) {
+  this.slug = slugify.default(this.name, { lower: true });
+  next();
+});
+
+tourSchema.post('save', function (doc, next) {
+  console.log(doc);
+  next();
 });
 //Model
 const Tour = mongoose.model('Tour', tourSchema);
