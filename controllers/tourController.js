@@ -55,7 +55,14 @@ exports.getTour = async (req, res) => {
     });
   }
 };
-exports.createTour = async (req, res) => {
+
+const catchAsync = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+};
+
+exports.createTour = async (req, res, next) => {
   try {
     const newTour = await Tour.create(req.body);
     res.status(201).json({
