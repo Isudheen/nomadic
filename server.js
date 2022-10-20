@@ -13,7 +13,7 @@ mongoose
   })
   .then(() => console.log('DB connection successful'))
   .catch((err) => {
-    console.log('DB connection failed');
+    console.log(`DB connection failed due to: \n ${err}`);
   });
 
 //Port
