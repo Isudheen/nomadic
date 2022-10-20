@@ -22,7 +22,7 @@ class APIFeatures {
   }
   sort() {
     if (this.queryString.sort) {
-      const multiSort = req.query.sort.split(',').join(' '); // If current sort query is sort=price,-ratingsAverage
+      const multiSort = this.queryString.sort.split(',').join(' '); // If current sort query is sort=price,-ratingsAverage
       //Splits the comma separated string into an array and join into one string with space b/w words. minus sign sorts in descending order.
       this.query = this.query.sort(multiSort);
       console.log(multiSort);
@@ -34,7 +34,7 @@ class APIFeatures {
 
   limitFields() {
     if (this.queryString.fields) {
-      const allFields = req.query.fields.split(',').join(' '); //---Inclusion projection If current query is fields=name,price ----name and price are included
+      const allFields = this.queryString.fields.split(',').join(' '); //---Inclusion projection If current query is fields=name,price ----name and price are included
       this.query = this.query.select(allFields);
       console.log(allFields);
     } else {
