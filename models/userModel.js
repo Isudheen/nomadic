@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, `A user must have a password`],
     minlength: 8,
+    select: false, //to not show up in any queries
   },
   passwordConfirm: {
     type: String,
@@ -42,6 +43,13 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined; //delete passwordConfirm field before sending to db.
   next();
 });
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+}; //Instance method---available on all documents
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
