@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+
+//unhandled rejections, async
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log(`Unhandled rejection...Shutting Down`);
+  process.exit(1); //0 for success and 1 for uncaught exception
+});
+
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 //Database connection
@@ -11,13 +19,9 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then(() => console.log('DB connection successful'))
-  .catch((err) => {
-    console.log(`DB connection failed due to: \n ${err}`);
-  });
-
+  .then(() => console.log('DB connection successful'));
 //Port
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}.....`);
 });
