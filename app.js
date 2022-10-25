@@ -1,26 +1,29 @@
+const path = require('path');
 const express = require('express');
-const app = express();
 const morgan = require('morgan');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const viewRouter = require('./routes/viewRoutes');
+const app = express();
 
-//Middlewares
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
-const dateMiddleware = (req, res, next) => {
-  req.requestTime = new Date().toDateString();
-  next();
-};
+// GLOBAL MIDDLEWARES
+//Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
+//Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
 app.use(express.json()); //to access req.body
-app.use(express.static(`${__dirname}/public`));
-app.use(dateMiddleware);
 
 //Routes
+app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter); //Mounting the router
 app.use('/api/v1/users', userRouter);
 
