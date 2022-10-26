@@ -20,6 +20,7 @@ class APIFeatures {
     this.query = this.query.find(JSON.parse(queryStr));
     return this;
   }
+
   sort() {
     if (this.queryString.sort) {
       const multiSort = this.queryString.sort.split(',').join(' '); // If current sort query is sort=price,-ratingsAverage
