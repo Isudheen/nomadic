@@ -19,9 +19,7 @@ mongoose
   });
 
 // Read JSON file
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 const importData = async () => {
   try {
@@ -44,8 +42,10 @@ const deleteData = async () => {
   process.exit();
 };
 if (process.argv[2] === '--import') {
+  // node ./dev-data/data/import-dev-data.js --import
   importData();
 } else if (process.argv[2] === '--delete') {
+  // node ./dev-data/data/import-dev-data.js --delete
   deleteData();
 }
 
