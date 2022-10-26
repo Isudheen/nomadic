@@ -3,8 +3,6 @@ const catchAsync = require('../utils/catchAsync');
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) get Tour data from collection
   const tours = await Tour.find();
-  // tours.startLocationArray = tours.map((el) => el.startLocation);
-  // console.log(tours);
 
   // 2 ) Build template
 
@@ -21,3 +19,9 @@ exports.getTour = (req, res) => {
     title: 'The Forest Hiker Tour',
   });
 };
+
+exports.getLoginForm = catchAsync(async (req, res, next) => {
+  res.status(200).render('login', {
+    title: 'Log into your account',
+  });
+});
