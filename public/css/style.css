@@ -118,10 +118,14 @@ body {
     linear,
     left top,
     right top,
-    from(#7dd56f),
-    to(#28b487)
+    from(rgba(104, 113, 194, 0.85)),
+    to(rgba(35, 27, 102, 0.85))
   );
-  background-image: linear-gradient(to right, #7dd56f, #28b487);
+  background-image: linear-gradient(
+    to right,
+    rgba(104, 113, 194, 0.85),
+    rgba(35, 27, 102, 0.85)
+  );
   -webkit-background-clip: text;
   color: transparent;
   letter-spacing: 0.1rem;
@@ -156,13 +160,13 @@ body {
     linear,
     left top,
     right bottom,
-    from(rgba(125, 213, 111, 0.85)),
-    to(rgba(40, 180, 135, 0.85))
+    from(rgba(104, 113, 194, 0.85)),
+    to(rgba(35, 27, 102, 0.85))
   );
   background-image: linear-gradient(
     to bottom right,
-    rgba(125, 213, 111, 0.85),
-    rgba(40, 180, 135, 0.85)
+    rgba(104, 113, 194, 0.85),
+    rgba(35, 27, 102, 0.85)
   );
 }
 
@@ -236,6 +240,13 @@ body {
 }
 .btn--green::after {
   background-color: #55c57a;
+}
+.btn--blue {
+  background-color: rgba(56, 49, 122, 0.85);
+  color: #fff;
+}
+.btn--blue::after {
+  background-color: rgba(56, 49, 122, 0.85);
 }
 
 .btn--small {
@@ -1159,7 +1170,7 @@ body {
 .card__icon {
   height: 2rem;
   width: 2rem;
-  fill: #55c57a;
+  fill: rgba(52, 45, 119, 0.85);
 }
 .card__footer {
   background-color: #f7f7f7;
@@ -1253,7 +1264,7 @@ body {
 }
 .form__input:focus {
   outline: none;
-  border-bottom: 3px solid #55c57a;
+  border-bottom: 3px solid rgba(56, 49, 122, 0.85);
 }
 .form__input:focus:invalid {
   border-bottom: 3px solid #ff7730;
