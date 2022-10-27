@@ -1,16 +1,19 @@
+const cors = require('cors');
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
+
 const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(cors());
 // GLOBAL MIDDLEWARES
 //Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,7 +23,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(express.json()); //to access req.body
+app.use(express.json()); //to access req.body - body parser
+app.use(cookieParser());
+
+//Test middleware
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  console.log('Cookie middleware');
+  next();
+});
 
 //Routes
 app.use('/', viewRouter);
