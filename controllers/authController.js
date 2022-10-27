@@ -42,6 +42,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
+    photo: req.body.photo,
   });
 
   createSendToken(newUser, 201, res);
@@ -74,6 +75,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
   if (!token) {
     return next(new AppError(`You are not logged in. Please Login!`, 401));
@@ -94,6 +97,32 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   //Grant access to protected route
   req.user = currentUser; //for later middlewares
+  next();
+});
+
+//Only for rendered pages,there won't be any error
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  //1. getting token and checking if it's there
+  if (req.cookies.jwt) {
+    // 2. Verification token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+    //Above code to promisify : jwt.verify(token, process.env.JWT_SECRET)
+    //3. Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next();
+    }
+    //4.Check if user changed password after token was issued
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next();
+    }
+    //there is a logged in user
+    res.locals.user = currentUser; //currentuser will be available as user variable in the template
+    return next();
+  }
   next();
 });
 
@@ -129,7 +158,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to : ${resetURL}.\n Please ignore if that is not the case`;
 
   try {
-    const hey = await sendEmail({
+    await sendEmail({
       email: user.email,
       subject: `Your password reset token (valid for 10 min)`,
       message,
