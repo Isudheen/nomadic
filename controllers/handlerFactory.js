@@ -77,6 +77,7 @@ exports.getAll = (Model) =>
       .limitFields()
       .paginate();
     //chaining methods works because of "return this", which returns the entire object.
+    // const doc = await features.query.explain();
     const doc = await features.query;
 
     //Sending response
