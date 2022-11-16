@@ -1,3 +1,4 @@
+const multer = require('multer');
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
