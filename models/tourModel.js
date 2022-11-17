@@ -170,19 +170,19 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 //Post query middleware will have access to all documents returned from the query
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(
-    `Time taken for query is ${Date.now() - this.start} milliseconds`
-  );
-  next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(
+//     `Time taken for query is ${Date.now() - this.start} milliseconds`
+//   );
+//   next();
+// });
 
 //Aggregation Middleware
 // this keyword will be pointing to the aggregation object and not any documents.
 //below function adds a match operator to the beginning of pipeline array.
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(this.pipeline());
+  // console.log(this.pipeline());
   next();
 });
 

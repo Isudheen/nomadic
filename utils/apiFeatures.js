@@ -26,7 +26,7 @@ class APIFeatures {
       const multiSort = this.queryString.sort.split(',').join(' '); // If current sort query is sort=price,-ratingsAverage
       //Splits the comma separated string into an array and join into one string with space b/w words. minus sign sorts in descending order.
       this.query = this.query.sort(multiSort);
-      console.log(multiSort);
+      // console.log(multiSort);
     } else {
       this.query = this.query.sort('-createdAt'); //default sort. descending order of time
     }
@@ -37,7 +37,7 @@ class APIFeatures {
     if (this.queryString.fields) {
       const allFields = this.queryString.fields.split(',').join(' '); //---Inclusion projection If current query is fields=name,price ----name and price are included
       this.query = this.query.select(allFields);
-      console.log(allFields);
+      // console.log(allFields);
     } else {
       this.query = this.query.select('-__v'); //default condition. minus sign means exclusion projection __v is excluded. Cannot use inclusion and exclusion projections together.
     }

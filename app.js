@@ -4,10 +4,11 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -24,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 // GLOBAL MIDDLEWARES
 app.use(cors());
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
 
 //Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -61,6 +62,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 //Data sanitization against XSS
 app.use(xss());
