@@ -6,7 +6,7 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-  const message = `Duplicate Fields Value: ${errors.keyValue.name}. Please try another value `;
+  const message = `Duplicate Fields Value: ${err.keyValue.name}. Please try another value `;
   return new AppError(message, 400);
 };
 
@@ -88,8 +88,8 @@ module.exports = (err, req, res, next) => {
     let error = JSON.parse(JSON.stringify(err)); //making a deep copy of err
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    if (error.name === 'ValidationError') console.log(err.name);
-    error = handleValidationErrorDB(error);
+    if (error.name === 'ValidationError')
+      error = handleValidationErrorDB(error);
     if (error.name === 'JsonWebTokenError') error = handleJWTError();
     if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
     sendErrorProd(error, req, res);
