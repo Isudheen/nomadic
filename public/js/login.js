@@ -14,14 +14,11 @@ export const login = async (email, password) => {
       },
     });
 
-    if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successfully');
-      window.setTimeout(() => {
-        location.assign('/');
-      }, 1500);
-    }
+    showAlert('success', 'Logged in successfully 😎');
+    window.setTimeout(() => {
+      location.assign('/');
+    }, 1500);
   } catch (err) {
-    // console.log(err.response.data);
     showAlert('error', err.response.data.msg);
   }
 };
