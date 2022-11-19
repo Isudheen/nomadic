@@ -1,0 +1,35 @@
+extends base
+
+block content
+ .user-view__content
+  .user-view__form-container
+    h2.heading-secondary.ma-bt-md Edit Tour
+    form.form-tour-data
+     .form__group 
+      label.form__label(for='name') Tour Name 
+      input#name.form__input(type='text', value=`${tour.name}`, name='name')
+     .form__group 
+      label.form__label(for='price') Price
+      input#price.form__input(type='text', value=`${tour.price}`, name='price')
+     .form__group 
+      label.form__label(for='duration') Duration 
+      input#duration.form__input(type='text', value=`${tour.duration}`, name='duration')
+     .form__group 
+      label.form__label(for='difficulty') Difficulty 
+      input#difficulty.form__input(type='text', value=`${tour.difficulty}`, name='difficulty')
+     .form__group 
+      label.form__label(for='size') Max Group Size
+      input#size.form__input(type='text', value=`${tour.maxGroupSize}`, name='size')
+     .form__group 
+      label.form__label(for='summary') Summary 
+      input#summary.form__input(type='text', value=`${tour.summary}`, name='summary')
+     .form__group 
+      label.form__label(for='description') Description 
+      input#description.form__input(type='text', value=`${tour.description}`, name='description')
+     .form__group 
+      label.form__label(for='slug') Slug 
+      input#slug.form__input(type='text', value=`${tour.slug}`, name='slug')
+      .tour_id #{id}
+     .form__group.right
+       button.btn.btn--small.btn--blue Update Tour
+     

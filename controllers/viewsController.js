@@ -67,3 +67,20 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
     tours,
   });
 });
+
+exports.tourManage = catchAsync(async (req, res, next) => {
+  const tours = await Tour.find();
+
+  res.status(200).render('tour-manage', {
+    tours,
+  });
+});
+
+exports.tourEdit = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findById(req.params.id);
+
+  res.status(200).render('tour-edit', {
+    id: req.params.id,
+    tour,
+  });
+});

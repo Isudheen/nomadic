@@ -16,5 +16,17 @@ router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/me', authController.protect, viewsController.getAccount);
 router.get('/my-tours', authController.protect, viewsController.getMyTours);
+router.get(
+  '/tour-manage',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.tourManage
+);
+router.get(
+  '/tour-manage/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.tourEdit
+);
 
 module.exports = router;

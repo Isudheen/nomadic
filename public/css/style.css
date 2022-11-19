@@ -1259,6 +1259,10 @@ body {
   border-radius: 5px;
 }
 
+/* .form__input__large {
+
+} */
+
 .form__input {
   display: block;
   font-family: inherit;

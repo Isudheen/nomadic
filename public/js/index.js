@@ -4,6 +4,7 @@ import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { signUp } from './signup';
+import { tourEdit } from './tourUpdate';
 
 //DOM elements
 const loginForm = document.querySelector('.form');
@@ -12,6 +13,7 @@ const signUpForm = document.querySelector('.sign_up-form');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const editTour = document.querySelector('.form-tour-data');
 
 //values
 
@@ -70,4 +72,28 @@ if (bookBtn)
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId);
+  });
+if (editTour)
+  editTour.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const duration = document.getElementById('duration').value;
+    const difficulty = document.getElementById('difficulty').value;
+    const maxGroupSize = document.getElementById('size').value;
+    const summary = document.getElementById('summary').value;
+    const description = document.getElementById('description').value;
+    const slug = document.getElementById('slug').value;
+    const id = document.querySelector('.tour_id').textContent;
+    tourEdit(
+      name,
+      price,
+      duration,
+      difficulty,
+      maxGroupSize,
+      summary,
+      description,
+      slug,
+      id
+    );
   });
