@@ -20,13 +20,27 @@ router.get(
   '/tour-manage',
   authController.protect,
   authController.restrictTo('admin'),
-  viewsController.tourManage
+  viewsController.getTourManage
 );
 router.get(
   '/tour-manage/:id',
   authController.protect,
   authController.restrictTo('admin'),
-  viewsController.tourEdit
+  viewsController.getTourEdit
+);
+
+router.get(
+  '/user-manage',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.getUserManage
+);
+
+router.get(
+  '/user-manage/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewsController.getUserEdit
 );
 
 module.exports = router;

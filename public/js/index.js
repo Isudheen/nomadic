@@ -5,6 +5,7 @@ import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { signUp } from './signup';
 import { tourEdit } from './tourUpdate';
+import { userEdit } from './userUpdate';
 
 //DOM elements
 const loginForm = document.querySelector('.form');
@@ -14,6 +15,7 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 const editTour = document.querySelector('.form-tour-data');
+const editUser = document.querySelector('.form-user-data-admin');
 
 //values
 
@@ -76,14 +78,14 @@ if (bookBtn)
 if (editTour)
   editTour.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const price = document.getElementById('price').value;
-    const duration = document.getElementById('duration').value;
-    const difficulty = document.getElementById('difficulty').value;
-    const maxGroupSize = document.getElementById('size').value;
-    const summary = document.getElementById('summary').value;
-    const description = document.getElementById('description').value;
-    const slug = document.getElementById('slug').value;
+    const name = document.getElementById('tour-name').value;
+    const price = document.getElementById('tour-price').value;
+    const duration = document.getElementById('tour-duration').value;
+    const difficulty = document.getElementById('tour-difficulty').value;
+    const maxGroupSize = document.getElementById('tour-size').value;
+    const summary = document.getElementById('tour-summary').value;
+    const description = document.getElementById('tour-description').value;
+    const slug = document.getElementById('tour-slug').value;
     const id = document.querySelector('.tour_id').textContent;
     tourEdit(
       name,
@@ -96,4 +98,15 @@ if (editTour)
       slug,
       id
     );
+  });
+
+if (editUser)
+  editUser.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('user-name').value;
+    const email = document.getElementById('user-email').value;
+    const active = document.getElementById('user-active').value;
+    const role = document.getElementById('user-role').value;
+    const id = document.querySelector('.user_id').textContent;
+    userEdit(name, email, active, role, id);
   });

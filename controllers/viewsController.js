@@ -1,8 +1,10 @@
 // const User = require('../models/userModel');
 const Tour = require('../models/tourModel');
+const User = require('../models/userModel');
 const Bookings = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+// const { schema } = require('../models/tourModel');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) get Tour data from collection
@@ -44,7 +46,7 @@ exports.getLoginForm = catchAsync(async (req, res, next) => {
 
 exports.getSignupForm = catchAsync(async (req, res, next) => {
   res.status(200).render('signup', {
-    title: 'Create new account account',
+    title: 'Create new account',
   });
 });
 
@@ -68,7 +70,7 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.tourManage = catchAsync(async (req, res, next) => {
+exports.getTourManage = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
 
   res.status(200).render('tour-manage', {
@@ -76,11 +78,25 @@ exports.tourManage = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.tourEdit = catchAsync(async (req, res, next) => {
+exports.getTourEdit = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
 
   res.status(200).render('tour-edit', {
-    id: req.params.id,
     tour,
+  });
+});
+
+exports.getUserManage = catchAsync(async (req, res, next) => {
+  const users = await User.find().select('+active');
+  // 'active' is not selected in schema, so selecting explicitly
+  res.status(200).render('user-manage', {
+    users,
+  });
+});
+
+exports.getUserEdit = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id).select('+active');
+  res.status(200).render('user-edit', {
+    user,
   });
 });

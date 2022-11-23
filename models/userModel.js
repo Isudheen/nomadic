@@ -67,12 +67,12 @@ userSchema.pre('save', function (next) {
   next();
 });
 
-userSchema.pre(/^find/, function (next) {
-  //this points to current query
-  this.find({ active: { $ne: false } });
-  //similar to this.find({ active: true }), but above one even selects documents without active property.
-  next();
-});
+// userSchema.pre(/^find/, function (next) {
+//   //this points to current query
+//   this.find({ active: { $ne: false } });
+//   //similar to this.find({ active: true }), but above one even selects documents without active property.
+//   next();
+// });
 
 userSchema.methods.correctPassword = async function (
   candidatePassword,
