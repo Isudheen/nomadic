@@ -8,7 +8,7 @@ process.on('unhandledRejection', (err) => {
   process.exit(1); //0 for success and 1 for uncaught exception
 });
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './vars/config.env' });
 const app = require('./app');
 //Database connection
 const DB = process.env.DATABASE.replace('<password>', process.env.DB_PASSWORD);
