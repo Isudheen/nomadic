@@ -230,7 +230,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  //User.findByIdAndUpdate won't work as intended! pre save middlewares won't work....Also this reference in schema won't work
+  //User.findByIdAndUpdate won't work as intended! pre save middleware won't work....Also this reference in schema won't work
   // 4) Log users in , send JWT
   createSendToken(user, 200, res);
 });
