@@ -5,7 +5,7 @@ import { showAlert } from './alerts';
 
 export const login = async (email, password) => {
   try {
-    const res = await axios({
+    await axios({
       method: 'POST',
       url: '/api/v1/users/login',
       data: {
@@ -22,7 +22,7 @@ export const login = async (email, password) => {
     showAlert('error', err.response.data.msg);
   }
 };
-
+// err.response.data.msg;
 export const logout = async () => {
   try {
     const res = await axios({
