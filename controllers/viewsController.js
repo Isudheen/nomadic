@@ -2,7 +2,7 @@
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
 const Review = require('../models/reviewModel');
-const Bookings = require('../models/bookingModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 // const { schema } = require('../models/tourModel');
@@ -59,7 +59,7 @@ exports.getAccount = catchAsync(async (req, res, next) => {
 
 exports.getMyTours = catchAsync(async (req, res, next) => {
   // 1) Find all bookings
-  const bookings = await Bookings.find({ user: req.user.id });
+  const bookings = await Booking.find({ user: req.user.id });
 
   //2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
@@ -106,5 +106,12 @@ exports.getReviewManage = catchAsync(async (req, res, next) => {
   const reviews = await Review.find();
   res.status(200).render('review-manage', {
     reviews,
+  });
+});
+
+exports.getBookingManage = catchAsync(async (req, res, next) => {
+  const bookings = await Booking.find();
+  res.status(200).render('booking-manage', {
+    bookings,
   });
 });

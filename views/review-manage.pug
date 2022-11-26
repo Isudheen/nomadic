@@ -4,10 +4,13 @@ block content
  main.main 
   .card-container
    each review in reviews 
-    table 
-     tr 
-      th= review.review 
-      th= review.rating
-     tr
-      th= review.user.name
-      th= review.tour.name
+    .card
+     .card__details
+      h4.card__sub-heading=`Tour: ${review.tour.name}` 
+      p.card__text=`${review.review}`
+      p.card__text=`Rating: ${review.rating}`
+      img.form__user-photo(src=`/img/users/${review.user.photo}`, alt=`Photo of ${review.user.name}`)
+      h4.card__sub-heading=`${review.user.name}` 
+      h4.card__sub-heading=`User id: ${review.user.id}` 
+      h4.card__sub-heading=`Tour id: ${review.tour.id}` 
+      h4.card__sub-heading=`Review id: ${review.id}` 

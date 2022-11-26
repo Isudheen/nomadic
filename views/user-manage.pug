@@ -8,25 +8,25 @@ block content
      .card__header 
       .card__picture 
        .card__picture-overlay &nbsp;
-       img.card__picture-img(src=`img/users/${user.photo}`, alt=`${user.name}`)
+       img.card__picture-img(src=`/img/users/${user.photo}`, alt=`${user.name}`)
       h4.heading-secondary 
        span= user.name
      .card__details
       .card__data
        svg.card__icon 
-        use(xlink:href='img/icons.svg#icon-mail') 
+        use(xlink:href='/img/icons.svg#icon-mail') 
        span=  `Email: ${user.email}`
       .card__data
        svg.card__icon 
-        use(xlink:href='img/icons.svg#icon-server') 
+        use(xlink:href='/img/icons.svg#icon-server') 
        span=  `Role: ${user.role}`
       .card__data
        svg.card__icon 
-        use(xlink:href='img/icons.svg#icon-database') 
+        use(xlink:href='/img/icons.svg#icon-database') 
        span= `ID: ${user.id}`
       .card__data
        svg.card__icon 
-        use(xlink:href='img/icons.svg#icon-activity') 
+        use(xlink:href='/img/icons.svg#icon-activity') 
        span= `Active: ${user.active}`
      .card__footer
       a.btn.btn--blue.btn--small(href=`/user-manage/${user.id}`) Edit User

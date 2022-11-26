@@ -8,4 +8,15 @@ block content
      .card__header 
       .card__picture 
        .card__picture-overlay &nbsp;
-       .name Hello
+       img.card__picture-img(src=`img/tours/${booking.tour.imageCover}`, alt=`${booking.tour.name}`)
+      h3.heading-tertiary
+              span= booking.tour.name 
+     .card__details
+      h4.heading-secondary=`${booking.user.name}`
+      img.nav__user-img(src=`/img/users/${booking.user.photo}` alt=`Photo of ${booking.user.name}`)
+      h4.card__sub-heading=`Booking Date: ${booking.createdAt.toLocaleString()}`
+      h4.card__sub-heading=`User id: ${booking.user._id}`
+      h4.card__sub-heading=`Booking id: ${booking._id}`
+      h4.card__sub-heading=`Tour id: ${booking.tour.id}`
+     //- .card__footer 
+     //-  a.btn.btn--blue.btn--small(href=`/tour-manage/${booking.id}`) Manage
