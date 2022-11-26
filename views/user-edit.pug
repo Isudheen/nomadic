@@ -17,6 +17,6 @@ block content
      .form__group 
       label.form__label(for='role') Role 
       input#user-role.form__input(type='text', value=`${user.role}`, name='role')
-      .user_id #{user.id}
+      .user_id.display_hidden #{user.id}
      .form__group.right
        button.btn.btn--small.btn--blue Update User

@@ -71,6 +71,21 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMyReviews = catchAsync(async (req, res, next) => {
+  const reviews = await Review.find({ user: req.user.id });
+  res.status(200).render('my-reviews', {
+    title: 'My Reviews',
+    reviews,
+  });
+});
+
+exports.getReviewEdit = catchAsync(async (req, res, next) => {
+  const review = await Review.findById(req.params.id);
+  res.status(200).render('review-edit', {
+    review,
+  });
+});
+
 exports.getTourManage = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
 

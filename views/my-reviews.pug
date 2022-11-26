@@ -1,0 +1,18 @@
+extends base
+
+block content 
+  main.main 
+    .card-container
+      each review in reviews 
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`/img/tours/${review.tour.imageCover}`, alt=`${review.tour.name}`)
+            h3.heading-tertiary
+              span= review.tour.name
+          .card__details
+            p.card__text=`${review.review}`
+            p.card__text=`Rating: ${review.rating}`
+          .card__footer
+            a.btn.btn--blue.btn--small(href=`/review-manage/${review.id}`) Edit

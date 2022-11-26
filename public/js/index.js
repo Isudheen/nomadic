@@ -6,6 +6,7 @@ import { bookTour } from './stripe';
 import { signUp } from './signup';
 import { tourEdit } from './tourUpdate';
 import { userEdit } from './userUpdate';
+import { reviewEdit } from './reviewUpdate';
 
 //DOM elements
 const loginForm = document.querySelector('.form');
@@ -14,8 +15,9 @@ const signUpForm = document.querySelector('.sign_up-form');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
-const editTour = document.querySelector('.form-tour-data');
-const editUser = document.querySelector('.form-user-data-admin');
+const editTourForm = document.querySelector('.form-tour-data');
+const editUserForm = document.querySelector('.form-user-data-admin');
+const editReviewForm = document.querySelector('.form-user-review-data');
 
 //values
 
@@ -75,8 +77,8 @@ if (bookBtn)
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
-if (editTour)
-  editTour.addEventListener('submit', (e) => {
+if (editTourForm)
+  editTourForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('tour-name').value;
     const price = document.getElementById('tour-price').value;
@@ -100,8 +102,8 @@ if (editTour)
     );
   });
 
-if (editUser)
-  editUser.addEventListener('submit', (e) => {
+if (editUserForm)
+  editUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('user-name').value;
     const email = document.getElementById('user-email').value;
@@ -109,4 +111,13 @@ if (editUser)
     const role = document.getElementById('user-role').value;
     const id = document.querySelector('.user_id').textContent;
     userEdit(name, email, active, role, id);
+  });
+
+if (editReviewForm)
+  editReviewForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const review = document.getElementById('user-review').value;
+    const rating = document.getElementById('user-rating').value;
+    const id = document.querySelector('.review_id').textContent;
+    reviewEdit(review, rating, id);
   });

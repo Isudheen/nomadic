@@ -1,0 +1,16 @@
+extends base
+
+block content
+ .user-view__content
+  .user-view__form-container
+    h2.heading-secondary.ma-bt-md Edit Review
+    form.form-user-review-data
+     .form__group 
+      label.form__label(for='review') Review 
+      input#user-review.form__input(type='text', value=`${review.review}`, name='review')
+     .form__group 
+      label.form__label(for='rating') Rating 
+      input#user-rating.form__input(type='text', value=`${review.rating}`, name='rating')
+      .review_id.display_hidden #{review.id}
+     .form__group.right
+       button.btn.btn--small.btn--blue Update Review

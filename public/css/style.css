@@ -1354,3 +1354,7 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+.display_hidden {
+  display: none;
+}

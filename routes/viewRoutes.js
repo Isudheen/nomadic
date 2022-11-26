@@ -56,10 +56,18 @@ router.get(
 );
 
 router.get(
+  '/review-manage/:id',
+  authController.protect,
+  viewsController.getReviewEdit
+);
+
+router.get(
   '/booking-manage',
   authController.protect,
   authController.restrictTo('admin'),
   viewsController.getBookingManage
 );
+
+router.get('/my-reviews', authController.protect, viewsController.getMyReviews);
 
 module.exports = router;
