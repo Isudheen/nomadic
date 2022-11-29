@@ -3,18 +3,20 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-export const reviewEdit = async (review, rating, id) => {
+export const reviewPost = async (review, rating, tour, user) => {
   try {
-    const url = `/api/v1/reviews/${id}`;
+    const url = `/api/v1/tours/${tour}/reviews`;
     await axios({
-      method: 'PATCH',
+      method: 'POST',
       url,
       data: {
         review,
         rating,
+        tour,
+        user,
       },
     });
-    showAlert('success', 'Review Updated ✨✨');
+    showAlert('success', 'Review Created ✨✨');
   } catch (err) {
     showAlert('error', err.response.data.message);
   }

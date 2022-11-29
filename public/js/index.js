@@ -7,6 +7,7 @@ import { signUp } from './signup';
 import { tourEdit } from './tourUpdate';
 import { userEdit } from './userUpdate';
 import { reviewEdit } from './reviewUpdate';
+import { reviewPost } from './reviewCreate';
 
 //DOM elements
 const loginForm = document.querySelector('.form');
@@ -18,6 +19,7 @@ const bookBtn = document.getElementById('book-tour');
 const editTourForm = document.querySelector('.form-tour-data');
 const editUserForm = document.querySelector('.form-user-data-admin');
 const editReviewForm = document.querySelector('.form-user-review-data');
+const createReviewForm = document.querySelector('.form-user-review-create');
 
 //values
 
@@ -120,4 +122,15 @@ if (editReviewForm)
     const rating = document.getElementById('user-rating').value;
     const id = document.querySelector('.review_id').textContent;
     reviewEdit(review, rating, id);
+  });
+
+if (createReviewForm)
+  createReviewForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const review = document.getElementById('user_review_create').value;
+    const rating = document.getElementById('user_rating_create').value;
+    const tourId = document.querySelector('.tour_id_create').textContent;
+    const userId = document.querySelector('.user_id_create').textContent;
+    console.log(review, rating, tourId, userId);
+    reviewPost(review, rating, tourId, userId);
   });

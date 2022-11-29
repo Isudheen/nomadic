@@ -16,7 +16,6 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 
   res.status(200).render('overview', {
     title: 'All Tours',
-
     tours,
   });
 });
@@ -60,14 +59,15 @@ exports.getAccount = catchAsync(async (req, res, next) => {
 exports.getMyTours = catchAsync(async (req, res, next) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
+  const reviews = await Review.find({ user: req.user.id });
 
   //2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
-
-  res.status(200).render('overview', {
+  res.status(200).render('my-bookings', {
     title: 'My Tours',
     tours,
+    reviews,
   });
 });
 
@@ -88,7 +88,6 @@ exports.getReviewEdit = catchAsync(async (req, res, next) => {
 
 exports.getTourManage = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
-
   res.status(200).render('tour-manage', {
     tours,
   });
@@ -128,5 +127,20 @@ exports.getBookingManage = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find();
   res.status(200).render('booking-manage', {
     bookings,
+  });
+});
+
+exports.getReviewCreate = catchAsync(async (req, res, next) => {
+  const currentUser = res.locals.user;
+  const tourId = req.params.id;
+  const reviews = await Review.findOne({ user: currentUser }, { tour: tourId });
+  if (reviews) {
+    return res.status(400).render('error', {
+      title: 'Something went wrong!',
+      msg: 'Review already exists',
+    });
+  }
+  res.status(200).render('review-create', {
+    tourId,
   });
 });

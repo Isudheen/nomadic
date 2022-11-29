@@ -69,5 +69,11 @@ router.get(
 );
 
 router.get('/my-reviews', authController.protect, viewsController.getMyReviews);
+router.get(
+  '/review-create/:id',
+  authController.protect,
+  authController.restrictTo('user'),
+  viewsController.getReviewCreate
+);
 
 module.exports = router;

@@ -1,0 +1,17 @@
+extends base
+
+block content
+  .user-view__content
+    .user-view__form-container
+      h2.heading-secondary.ma-bt-md Create Review
+      form.form-user-review-create
+        .form__group 
+          label.form__label(for='review') Review 
+          input#user_review_create.form__input(type='text', placeholder=`Write your review here` name='review')
+        .form__group 
+          label.form__label(for='rating') Rating 
+          input#user_rating_create.form__input(type='text', placeholder=`Rating 1 to 5` name='rating')
+          .tour_id_create.display_hidden #{tourId}
+          .user_id_create.display_hidden #{user.id}
+        .form__group.right
+          button.btn.btn--small.btn--blue Post Review
