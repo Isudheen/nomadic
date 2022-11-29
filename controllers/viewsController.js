@@ -131,10 +131,10 @@ exports.getBookingManage = catchAsync(async (req, res, next) => {
 });
 
 exports.getReviewCreate = catchAsync(async (req, res, next) => {
-  const currentUser = res.locals.user;
+  const userId = res.locals.user.id;
   const tourId = req.params.id;
-  const reviews = await Review.findOne({ user: currentUser }, { tour: tourId });
-  if (reviews) {
+  const reviews = await Review.find({ user: userId, tour: tourId });
+  if (reviews.length !== 0) {
     return res.status(400).render('error', {
       title: 'Something went wrong!',
       msg: 'Review already exists',
