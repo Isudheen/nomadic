@@ -29,8 +29,10 @@ export const logout = async () => {
       method: 'GET',
       url: '/api/v1/users/logout',
     });
-
-    if ((res.data.status = 'success')) location.reload(true); //to force a reload from server and not from the browser cache
+    // location.reload(true); //to force a reload from server and not from the browser cache
+    window.setTimeout(() => {
+      location.assign('/login');
+    }, 0);
   } catch (err) {
     showAlert('error');
   }
