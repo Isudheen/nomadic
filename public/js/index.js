@@ -8,6 +8,7 @@ import { tourEdit } from './tourUpdate';
 import { userEdit } from './userUpdate';
 import { reviewEdit } from './reviewUpdate';
 import { reviewPost } from './reviewCreate';
+import { mobileOtpSend, mobileOtpLogin } from './otp';
 
 //DOM elements
 const loginForm = document.querySelector('.form');
@@ -20,7 +21,8 @@ const editTourForm = document.querySelector('.form-tour-data');
 const editUserForm = document.querySelector('.form-user-data-admin');
 const editReviewForm = document.querySelector('.form-user-review-data');
 const createReviewForm = document.querySelector('.form-user-review-create');
-
+const otpSendForm = document.querySelector('.form-otp-send');
+const otpVerifyLoginForm = document.querySelector('.form-otp-verify');
 //values
 
 //Delegation
@@ -39,9 +41,10 @@ if (signUpForm)
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
+    const mobile = document.getElementById('mobile').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('confirm_password').value;
-    signUp(name, email, password, passwordConfirm);
+    signUp(name, email, mobile, password, passwordConfirm);
   });
 
 if (userDataForm)
@@ -131,6 +134,21 @@ if (createReviewForm)
     const rating = document.getElementById('user_rating_create').value;
     const tourId = document.querySelector('.tour_id_create').textContent;
     const userId = document.querySelector('.user_id_create').textContent;
-    console.log(review, rating, tourId, userId);
     reviewPost(review, rating, tourId, userId);
+  });
+
+if (otpSendForm)
+  otpSendForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const mobile = document.getElementById('mobile').value;
+    const action = document.querySelector('.otp-action');
+    mobileOtpSend(mobile);
+  });
+
+if (otpVerifyLoginForm)
+  otpVerifyLoginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const mobile = document.getElementById('mobile').value;
+    const otp = document.getElementById('otp-verify').value;
+    mobileOtpLogin(mobile, otp);
   });

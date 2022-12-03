@@ -14,6 +14,8 @@ router.get(
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
+router.get('/mobile-otp-send/', viewsController.getOtpSend);
+router.get('/mobile-otp-verify/:mobile', viewsController.getOtpVerify);
 router.get('/me', authController.protect, viewsController.getAccount);
 router.get(
   '/my-tours',

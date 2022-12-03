@@ -1,10 +1,27 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const Twilio = require('twilio');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
+
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_TOKEN;
+const serviceId = process.env.TWILIO_VERIFY_SID;
+const client = new Twilio(accountSid, authToken);
+
+const otpSend = async (req) =>
+  await client.verify.v2
+    .services(serviceId)
+    .verifications.create({ to: `+91${req.body.mobile}`, channel: 'sms' });
+
+const otpVerification = async (req) =>
+  await client.verify.v2.services(serviceId).verificationChecks.create({
+    to: `+91${req.body.mobile}`,
+    code: `${req.body.otp}`,
+  });
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -35,17 +52,41 @@ const createSendToken = (user, statusCode, req, res) => {
     },
   });
 };
+exports.signupSendOtp = catchAsync(async (req, res, next) => {
+  const send = await otpSend(req);
+  console.log(send.status);
+  res.status(200).json({ status: send.status });
+});
+
+exports.CheckUserSendOtp = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({
+    mobile: req.body.mobile,
+    active: { $ne: false },
+  });
+  if (!user) return next(new AppError(`Incorrect mobile number`, 401));
+  if (user) {
+    const send = otpSend(req);
+    res.status(200).json({ status: send.status });
+  }
+});
+
+exports.verifyOtp = catchAsync(async (req, res, next) => {
+  const verify = await otpVerification(req);
+  res.status(200).json({ status: verify.status });
+});
 
 exports.signUp = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    mobile: req.body.mobile,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     // role: req.body.role,
     photo: req.body.photo,
   });
 
+  await otpSend(req);
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
 
@@ -71,6 +112,24 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
+});
+
+exports.otpLogin = catchAsync(async (req, res, next) => {
+  const otpLoginVerify = await otpVerification(req);
+  if (otpLoginVerify.status === 'approved') {
+    const user = await User.findOneAndUpdate(
+      {
+        mobile: req.body.mobile,
+        active: { $ne: false },
+      },
+      {
+        isVerified: true,
+      }
+    );
+    createSendToken(user, 200, req, res);
+  } else {
+    return next(new AppError(`Incorrect OTP, Please try again`, 401));
+  }
 });
 
 exports.logout = (req, res) => {

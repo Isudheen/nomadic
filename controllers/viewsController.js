@@ -144,3 +144,15 @@ exports.getReviewCreate = catchAsync(async (req, res, next) => {
     tourId,
   });
 });
+
+exports.getOtpSend = catchAsync(async (req, res, next) => {
+  res.status(200).render('otp-send', {
+    action: req.params.action,
+  });
+});
+
+exports.getOtpVerify = catchAsync(async (req, res, next) => {
+  res.status(200).render('otp-verify', {
+    mobile: req.params.mobile,
+  });
+});

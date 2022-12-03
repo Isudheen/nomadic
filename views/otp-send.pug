@@ -1,0 +1,13 @@
+extends base
+
+block content
+ .user-view__content
+  .user-view__form-container
+   h2.heading-secondary.ma-bt-md Mobile OTP Verification
+   form.form-otp-send
+    .form__group 
+     label.form__label(for='mobile') Enter Mobile Number 
+     input#mobile.form__input(type='text', value=``, name='mobile')
+     .otp-action.display_hidden #{action}
+    .form__group.right
+     button.btn.btn--small.btn--blue Send OTP

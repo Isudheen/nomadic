@@ -1,0 +1,16 @@
+extends base
+
+block content
+ .user-view__content
+  .user-view__form-container
+    h2.heading-secondary.ma-bt-md Mobile OTP Verification
+    form.form-otp-verify
+     .form__group 
+      label.form__label(for='mobile') Mobile Number 
+      input#mobile.form__input(type='text', value=`${mobile}`, name='mobile', disabled)
+     .form__group 
+      label.form__label(for='otp-verify') Enter OTP 
+      input#otp-verify.form__input(type='text', value=``, name='otp-verify')
+      //- .otp-action.display_hidden #{action}
+     .form__group.right
+       button.btn.btn--small.btn--blue Verify OTP
